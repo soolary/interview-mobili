@@ -1,12 +1,15 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <van-button type="danger">123cd </van-button>
     </div>
-    <router-view />
   </div>
 </template>
+<script>
+export default {
+  // 123
+}
+</script>
 
 <style lang="less">
 #app {
