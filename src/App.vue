@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <div id="nav">
-      <van-button type="danger">123cd </van-button>
+      <van-button class="test ">123cd </van-button>
+      <i class="iconfont iconbtn_share">123</i>
     </div>
   </div>
 </template>
@@ -22,7 +23,11 @@ export default {
 
 #nav {
   padding: 30px;
-
+  .test {
+    // background-color: @success-color;
+    width: 150px;
+    height: 4rem;
+  }
   a {
     font-weight: bold;
     color: #2c3e50;
