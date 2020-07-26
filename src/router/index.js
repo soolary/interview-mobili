@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 // import Home from '../views/Home.vue'
-import company from '../views/company'
-import question from '../views/question'
-import find from '../views/find'
-import my from '../views/my'
-import login from '../views/login'
+import Company from '../views/company'
+import Question from '../views/question'
+import Find from '../views/find'
+import My from '../views/my'
+import Login from '../views/login'
 Vue.use(VueRouter)
 
 const routes = [
@@ -16,27 +16,27 @@ const routes = [
   //  },
   {
     path: '/company',
-    component: company,
+    component: Company,
     meta: { showTabbar: true }
   },
   {
     path: '/question',
-    component: question,
+    component: Question,
     meta: { showTabbar: true }
   },
   {
     path: '/find',
-    component: find,
+    component: Find,
     meta: { showTabbar: true }
   },
   {
     path: '/my',
-    component: my,
+    component: My,
     meta: { showTabbar: true }
   },
   {
     path: '/login',
-    component: login
+    component: Login
     // meta: { showTabbar: true }
   }
 ]
