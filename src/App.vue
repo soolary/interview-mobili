@@ -37,7 +37,7 @@
 <script>
 export default {
   // 12345
-  // 1234
+  // 12345
 }
 </script>
 
