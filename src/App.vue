@@ -37,15 +37,15 @@
 <script>
 export default {
   // 12345
+  // 1234
 }
 </script>
 
 <style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+.app {
+  // 调整字体图标的大小
+  .iconfont {
+    font-size: 28px;
+  }
 }
 </style>
