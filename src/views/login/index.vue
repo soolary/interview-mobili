@@ -48,9 +48,9 @@
           ></van-col>
           <van-col class="btn-col" span="8">
             <!-- 获取验证码按钮 -->
-            <span @click="getCode" class="code-btn van-hairline--left"
-              >获取验证码</span
-            >
+            <span @click="getCode" class="code-btn van-hairline--left">{{
+              btnText
+            }}</span>
           </van-col>
         </van-row>
         <!-- 用户协议 -->
@@ -59,21 +59,25 @@
         </p>
         <div class="submit-box">
           <van-button round block type="danger" native-type="submit">
-            {{ $store.state.xxx }}
+            登录
           </van-button>
         </div>
       </van-form>
     </div>
+    <!-- <button @click="change">{{ $store.state.xxx }}</button> -->
   </div>
 </template>
 
 <script>
-import { getCode } from '@/api/login/login.js'
+import { getCode, login } from '@/api/login/login.js'
+import { setToken } from '@/utils/local.js'
 export default {
   data () {
     return {
       mobile: '',
-      code: ''
+      code: '',
+      btnText: '获取验证码',
+      delay: 0
     }
   },
   methods: {
@@ -87,15 +91,38 @@ export default {
       console.log('right')
     },
     getCode () {
+      if (this.delay !== 0) {
+        return
+      }
       this.$refs.loginForm.validate('mobile').then(res => {
         this.$toast.loading({ duration: 0 })
+
+        getCode({ mobile: this.mobile }).then(res => {
+          this.$toast.success(res.data)
+        })
       })
-      getCode({ mobile: this.mobile }).then(res => {
-        this.$toast.success(res.data)
-      })
+      this.delay = 10
+      this.btnText = this.delay + 's后重试'
+      const interID = setInterval(() => {
+        this.delay--
+        this.btnText = this.delay + 's后重试'
+        if (this.delay <= 0) {
+          clearInterval(interID)
+          this.btnText = '获取验证码'
+        }
+      }, 1000)
     },
-    onSubmit () {
-      console.log('提交')
+
+    onSubmit (value) {
+      this.$toast.loading({ duration: 0 })
+      login(value).then(res => {
+        this.$toast.success(res.message)
+        // 保存token和用户信息（vuex)
+        setToken(res.data.jwt)
+        this.$store.commit('setUserinfo', res.data.user)
+        this.$router.push('/my')
+        // console.log(this.$store.state.userinfo)
+      })
     }
   }
 }

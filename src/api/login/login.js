@@ -6,4 +6,11 @@ function getCode (data) {
     data
   })
 }
-export { getCode }
+function login (data) {
+  return request({
+    url: '/au/login',
+    method: 'post',
+    data
+  })
+}
+export { getCode, login }
