@@ -16,7 +16,7 @@ export default {
   methods: {
     clickCell () {
       // console.log(456)
-      // this.$emit('click')
+      this.$emit('click')
     }
   }
 }

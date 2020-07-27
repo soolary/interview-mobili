@@ -4,31 +4,31 @@
       <div class="user-box">
         <!-- 左侧 -->
         <div class="left">
-          <h3 class="title">老菜头</h3>
-          <p class="desc">面试不求人，我有面试宝典</p>
+          <h3 class="title">{{ userinfo.nickname }}</h3>
+          <p class="desc">{{ userinfo.intro }}</p>
         </div>
         <!-- 右侧头像 -->
         <div class="right">
-          <img src="../../assets/avatar.png" alt="" class="avatar" />
+          <img :src="avatar" alt="" class="avatar" />
         </div>
       </div>
       <!-- 统计信息 -->
       <div>
         <ul>
           <li>
-            <p>555</p>
+            <p>{{ userinfo.submitNum }}</p>
             <p>累计刷题</p>
           </li>
           <li>
-            <p>555</p>
+            <p>{{ userinfo.collectQuestions.length }}</p>
             <p>收藏题目</p>
           </li>
           <li>
-            <p>555</p>
+            <p>{{ userinfo.errorNum }}</p>
             <p>我的错题</p>
           </li>
           <li>
-            <p>555</p>
+            <p>{{ rate }}%</p>
             <p>正确率</p>
           </li>
         </ul>
@@ -45,19 +45,25 @@
         <div class="title">面经数据</div>
         <ul>
           <li>
-            <p>昨日阅读<span>+300</span></p>
-            <p>17</p>
+            <p>
+              昨日阅读<span>+{{ userinfo.shareData.read.yesterday }}</span>
+            </p>
+            <p>{{ userinfo.shareData.read.total }}</p>
             <p>阅读总数</p>
           </li>
           <li>
-            <p>昨日阅读<span>+300</span></p>
-            <p>17</p>
-            <p>阅读总数</p>
+            <p>
+              昨日获赞<span>+{{ userinfo.shareData.star.yesterday }}</span>
+            </p>
+            <p>{{ userinfo.shareData.star.total }}</p>
+            <p>获赞总数</p>
           </li>
           <li>
-            <p>昨日阅读<span>+300</span></p>
-            <p>17</p>
-            <p>阅读总数</p>
+            <p>
+              昨日新增<span>+{{ userinfo.shareData.comment.yesterday }}</span>
+            </p>
+            <p>{{ userinfo.shareData.comment.total }}</p>
+            <p>评论总数</p>
           </li>
         </ul>
       </div>
@@ -70,23 +76,27 @@
         <MMCell
           title="我的消息"
           icon="iconicon_mine_xiaoxi"
-          value="21"
+          :value="userinfo.systemMessages"
         ></MMCell>
         <MMCell
           title="收藏的题库"
           icon="iconicon_mine_tikushoucang"
-          value="21"
+          :value="userinfo.collectQuestions.length"
         ></MMCell>
         <MMCell
           title="收藏的企业"
           icon="iconicon_mine_qiyeshoucang"
           value="21"
         ></MMCell>
-        <MMCell title="我的错题" icon="iconicon_mine_cuoti" value="21"></MMCell>
+        <MMCell
+          title="我的错题"
+          icon="iconicon_mine_cuoti"
+          :value="userinfo.errorQuestions.length"
+        ></MMCell>
         <MMCell
           title="收藏的面试经验"
           icon="iconbtn_shoucang_sel"
-          value="21"
+          :value="userinfo.starArticles.length"
           @click="clickCell"
         ></MMCell>
       </van-cell-group>
@@ -95,15 +105,36 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex'
 import MMCell from './MMCell.vue'
 export default {
   name: 'my',
+  data () {
+    return {
+      // rate: 0
+    }
+  },
   components: {
     MMCell
   },
   methods: {
+    ...mapMutations(['setUserinfo']),
     clickCell () {
-      console.log(123)
+      // console.log(123)
+      // console.log(this)
+    }
+  },
+  computed: {
+    ...mapState(['userinfo']),
+    rate () {
+      return (
+        ((this.userinfo.submitNum - this.userinfo.errorNum) /
+          this.userinfo.submitNum) *
+        100
+      ).toFixed(1)
+    },
+    avatar () {
+      return process.env.VUE_APP_URL + this.userinfo.avatar
     }
   }
 }
