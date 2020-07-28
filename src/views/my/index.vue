@@ -106,7 +106,6 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import MMCell from './MMCell.vue'
 export default {
   name: 'my',
   data () {
