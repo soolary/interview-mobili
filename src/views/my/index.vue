@@ -106,16 +106,13 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import MMCell from './MMCell.vue'
+
 export default {
   name: 'my',
   data () {
     return {
       // rate: 0
     }
-  },
-  components: {
-    MMCell
   },
   methods: {
     ...mapMutations(['setUserinfo']),
