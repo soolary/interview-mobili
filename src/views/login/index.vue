@@ -128,4 +128,48 @@ export default {
 }
 </script>
 
-<style></style>
+<style lang="less">
+.login {
+  height: 100vh;
+  background: @white-color;
+  .iconfont {
+    font-size: 16px;
+  }
+  .main-box {
+    padding: 0 15px;
+    h2 {
+      margin: 0;
+      margin-top: 50px;
+      margin-bottom: 63px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .btn-col {
+      height: 45px;
+      display: flex;
+      align-items: center;
+    }
+    .code-btn {
+      display: inline-block;
+      line-height: 29px;
+      height: 29px;
+      padding-left: 15px;
+      font-size: 16px;
+      color: #00b8d4;
+    }
+    .van-row {
+      border-bottom: 1px solid #f7f4f5;
+    }
+    .deal {
+      font-size: 12px;
+      margin-top: 15px;
+      span {
+        color: #00b8d4;
+      }
+    }
+    .submit-box {
+      margin-top: 44px;
+    }
+  }
+}
+</style>

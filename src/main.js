@@ -4,6 +4,8 @@ import router from './router'
 import store from './store'
 // 导入vant
 import Vant from 'vant'
+import MMNavBar from './components/MMNavBar.vue'
+import MMCell from './components/MMCell.vue'
 import 'vant/lib/index.css'
 import 'normalize.css'
 // 导入flexible
@@ -13,7 +15,8 @@ import '@/styles/iconfont.css'
 // 导入自己的初始化样式
 import '@/styles/base.less'
 Vue.use(Vant)
-
+Vue.component(MMNavBar.name, MMNavBar)
+Vue.component(MMCell.name, MMCell)
 Vue.config.productionTip = false
 
 new Vue({
