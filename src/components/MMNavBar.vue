@@ -9,7 +9,7 @@
     class="MMNavBar"
   >
     <template #left>
-      <i class="iconfont iconbtn_nav_back"></i>
+      <i id="back" class="iconfont iconbtn_nav_back"></i>
     </template>
     <template #title>
       <slot name="title"></slot>
@@ -36,7 +36,7 @@ export default {
 
 <style lang="less">
 .MMNavBar {
-  .iconbtn_nav_back {
+  #back {
     font-size: 44px;
     color: @black-color;
   }

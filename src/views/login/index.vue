@@ -47,7 +47,6 @@
               </template> </van-field
           ></van-col>
           <van-col class="btn-col" span="8">
-            <!-- 获取验证码按钮 -->
             <span @click="getCode" class="code-btn van-hairline--left">{{
               btnText
             }}</span>
@@ -71,6 +70,7 @@
 <script>
 import { getCode, login } from '@/api/login/login.js'
 import { setToken } from '@/utils/local.js'
+import { mapMutations } from 'vuex'
 export default {
   data () {
     return {
@@ -81,6 +81,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['setUserinfo', 'setIsLogin']),
     change () {
       this.$store.commit('xxx', 777)
     },
@@ -119,7 +120,9 @@ export default {
         this.$toast.success(res.message)
         // 保存token和用户信息（vuex)
         setToken(res.data.jwt)
-        this.$store.commit('setUserinfo', res.data.user)
+        // this.$store.commit('setUserinfo', res.data.user)
+        this.setUserinfo(res.data.user)
+        this.setIsLogin(true)
         this.$router.push('/my')
         // console.log(this.$store.state.userinfo)
       })

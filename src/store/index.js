@@ -6,7 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     xxx: 666,
-    userinfo: {}
+    userinfo: {},
+    isLogin: false
   },
   mutations: {
     xxx (state, num) {
@@ -14,6 +15,9 @@ export default new Vuex.Store({
     },
     setUserinfo (state, info) {
       state.userinfo = info
+    },
+    setIsLogin (state, status) {
+      state.isLogin = status
     }
   },
   actions: {},

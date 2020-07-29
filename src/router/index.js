@@ -4,16 +4,16 @@ import VueRouter from 'vue-router'
 import Company from '../views/company'
 import Question from '../views/question'
 import Find from '../views/find'
-import My from '../views/my'
+import My from '../views/my/index'
+import Info from '../views/my/Info.vue'
 import Login from '../views/login'
 Vue.use(VueRouter)
 
 const routes = [
-  //  {
-  //  path: '/',
-  //  name: 'company',
-  //  rediret: company
-  //  },
+  {
+    path: '/',
+    redirect: '/login'
+  },
   {
     path: '/company',
     component: Company,
@@ -32,8 +32,9 @@ const routes = [
   {
     path: '/my',
     component: My,
-    meta: { showTabbar: true }
+    meta: { showTabbar: true, needLogin: true }
   },
+  { path: '/info', component: Info, meta: { showTabbar: false } },
   {
     path: '/login',
     component: Login

@@ -1,7 +1,7 @@
 <template>
-  <div class="my">
+  <div class="my" v-if="isLogin">
     <div class="top">
-      <div class="user-box">
+      <div class="user-box" @click="toMyInfo">
         <!-- 左侧 -->
         <div class="left">
           <h3 class="title">{{ userinfo.nickname }}</h3>
@@ -101,13 +101,18 @@
         ></MMCell>
       </van-cell-group>
     </div>
+    <Info></Info>
   </div>
 </template>
 
 <script>
+import Info from './Info'
 import { mapState, mapMutations } from 'vuex'
 export default {
   name: 'my',
+  components: {
+    Info
+  },
   data () {
     return {
       // rate: 0
@@ -118,10 +123,14 @@ export default {
     clickCell () {
       // console.log(123)
       // console.log(this)
+    },
+    toMyInfo () {
+      // alert(123)
+      this.$router.push({ path: '/info' })
     }
   },
   computed: {
-    ...mapState(['userinfo']),
+    ...mapState(['userinfo', 'isLogin']),
     rate () {
       return (
         ((this.userinfo.submitNum - this.userinfo.errorNum) /
@@ -131,6 +140,11 @@ export default {
     },
     avatar () {
       return process.env.VUE_APP_URL + this.userinfo.avatar
+    }
+  },
+  created () {
+    if (!this.isLogin) {
+      this.$router.push('/login')
     }
   }
 }
