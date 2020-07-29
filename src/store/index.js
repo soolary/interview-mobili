@@ -6,14 +6,24 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     xxx: 666,
-    userinfo: {}
+    userinfo: {},
+    isLogin: false
   },
   mutations: {
     xxx (state, num) {
       state.xxx = num
     },
-    setUserinfo (state, info) {
+    SETUSERINFO (state, info) {
       state.userinfo = info
+    },
+    SETISLOGIN (state, status) {
+      state.isLogin = status
+    }
+  },
+  getters: {
+    userGender (state) {
+      const genderObj = { 0: '未知', 1: '男', 2: '女' }
+      return genderObj[state.userinfo.gender]
     }
   },
   actions: {},

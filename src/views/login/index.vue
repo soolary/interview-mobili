@@ -47,7 +47,6 @@
               </template> </van-field
           ></van-col>
           <van-col class="btn-col" span="8">
-            <!-- 获取验证码按钮 -->
             <span @click="getCode" class="code-btn van-hairline--left">{{
               btnText
             }}</span>
@@ -71,6 +70,7 @@
 <script>
 import { getCode, login } from '@/api/login/login.js'
 import { setToken } from '@/utils/local.js'
+import { mapMutations } from 'vuex'
 export default {
   data () {
     return {
@@ -81,11 +81,16 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['SETUSERINFO', 'SETISLOGIN']),
     change () {
       this.$store.commit('xxx', 777)
     },
     onClickLeft () {
-      console.log('left')
+      if (this.$route.query.redirect) {
+        alert('你点尼玛呢')
+      } else {
+        this.$router.go(-1)
+      }
     },
     onClickRight () {
       console.log('right')
@@ -119,8 +124,14 @@ export default {
         this.$toast.success(res.message)
         // 保存token和用户信息（vuex)
         setToken(res.data.jwt)
-        this.$store.commit('setUserinfo', res.data.user)
-        this.$router.push('/my')
+        // this.$store.commit('setUserinfo', res.data.user)
+        this.SETUSERINFO(res.data.user)
+        this.SETISLOGIN(true)
+        if (this.$route.query.redirect) {
+          this.$router.push(`${this.$route.query.redirect}`)
+        } else {
+          this.$router.push('/find')
+        }
         // console.log(this.$store.state.userinfo)
       })
     }
@@ -130,7 +141,8 @@ export default {
 
 <style lang="less">
 .login {
-  height: 100vh;
+  padding: 44px 0 0;
+  height: 100px;
   background: @white-color;
   .iconfont {
     font-size: 16px;
