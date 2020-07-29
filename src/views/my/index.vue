@@ -101,18 +101,14 @@
         ></MMCell>
       </van-cell-group>
     </div>
-    <Info></Info>
+    <!-- <Info></Info> -->
   </div>
 </template>
 
 <script>
-import Info from './Info'
 import { mapState, mapMutations } from 'vuex'
 export default {
   name: 'my',
-  components: {
-    Info
-  },
   data () {
     return {
       // rate: 0
@@ -141,12 +137,12 @@ export default {
     avatar () {
       return process.env.VUE_APP_URL + this.userinfo.avatar
     }
-  },
-  created () {
-    if (!this.isLogin) {
-      this.$router.push('/login')
-    }
   }
+  // created () {
+  // if (!this.isLogin) {
+  // this.$router.push('/login')
+  // }
+  // }
 }
 </script>
 

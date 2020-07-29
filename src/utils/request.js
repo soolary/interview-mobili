@@ -1,10 +1,16 @@
 import axios from 'axios'
 import { Toast } from 'vant'
+import { getToken } from '@/utils/local.js'
 const request = axios.create({
   baseURL: process.env.VUE_APP_URL
 })
 request.interceptors.request.use(
   function (config) {
+    if (config.needToken) {
+      if (getToken()) {
+        config.headers.authorization = `Bearer ${getToken()}`
+      }
+    }
     return config
   },
   function (err) {

@@ -81,12 +81,16 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['setUserinfo', 'setIsLogin']),
+    ...mapMutations(['SETUSERINFO', 'SETISLOGIN']),
     change () {
       this.$store.commit('xxx', 777)
     },
     onClickLeft () {
-      console.log('left')
+      if (this.$route.query.redirect) {
+        alert('你点尼玛呢')
+      } else {
+        this.$router.go(-1)
+      }
     },
     onClickRight () {
       console.log('right')
@@ -121,9 +125,13 @@ export default {
         // 保存token和用户信息（vuex)
         setToken(res.data.jwt)
         // this.$store.commit('setUserinfo', res.data.user)
-        this.setUserinfo(res.data.user)
-        this.setIsLogin(true)
-        this.$router.push('/my')
+        this.SETUSERINFO(res.data.user)
+        this.SETISLOGIN(true)
+        if (this.$route.query.redirect) {
+          this.$router.push(`${this.$route.query.redirect}`)
+        } else {
+          this.$router.push('/find')
+        }
         // console.log(this.$store.state.userinfo)
       })
     }
@@ -133,7 +141,8 @@ export default {
 
 <style lang="less">
 .login {
-  height: 100vh;
+  padding: 44px 0 0;
+  height: 100px;
   background: @white-color;
   .iconfont {
     font-size: 16px;

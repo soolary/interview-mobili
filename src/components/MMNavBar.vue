@@ -28,7 +28,9 @@ export default {
     return {}
   },
   methods: {
-    onClickLeft () {},
+    onClickLeft () {
+      this.$emit('onClickLeft')
+    },
     onClickRight () {}
   }
 }

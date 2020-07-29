@@ -3,6 +3,9 @@
     <template #icon>
       <i class="iconfont" :class="icon"></i>
     </template>
+    <template>
+      <slot></slot>
+    </template>
     <template #right-icon>
       <i class="iconfont iconicon_more"></i>
     </template>
