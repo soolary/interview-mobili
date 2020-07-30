@@ -6,4 +6,12 @@ function getUserInfo () {
     needToken: true
   })
 }
-export { getUserInfo }
+function editUserInfo (data) {
+  return request({
+    url: '/au/edit',
+    method: 'post',
+    needToken: true,
+    data
+  })
+}
+export { getUserInfo, editUserInfo }

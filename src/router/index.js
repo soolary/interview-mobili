@@ -31,7 +31,7 @@ const routes = [
   {
     path: '/find',
     component: Find,
-    meta: { showTabbar: true, needLogin: true }
+    meta: { showTabbar: true }
   },
   {
     path: '/my',
