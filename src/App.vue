@@ -36,8 +36,7 @@
 </template>
 <script>
 export default {
-  // 12345
-  // 12345
+  //
 }
 </script>
 
