@@ -1,7 +1,7 @@
 <template>
   <div class="my" v-if="isLogin">
     <div class="top">
-      <div class="user-box" @click="toMyInfo">
+      <div class="user-box">
         <!-- 左侧 -->
         <div class="left">
           <h3 class="title">{{ userinfo.nickname }}</h3>
@@ -9,7 +9,7 @@
         </div>
         <!-- 右侧头像 -->
         <div class="right">
-          <img :src="avatar" alt="" class="avatar" />
+          <img :src="avatar" alt="" @click="toMyInfo" class="avatar" />
         </div>
       </div>
       <!-- 统计信息 -->
@@ -115,7 +115,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['setUserinfo']),
+    ...mapMutations(['SETUSERINFO']),
     clickCell () {
       // console.log(123)
       // console.log(this)
@@ -129,13 +129,17 @@ export default {
     ...mapState(['userinfo', 'isLogin']),
     rate () {
       return (
-        ((this.userinfo.submitNum - this.userinfo.errorNum) /
-          this.userinfo.submitNum) *
-        100
-      ).toFixed(1)
+        this.userinfo.submitNum &&
+        (
+          ((this.userinfo.submitNum - this.userinfo.errorNum) /
+            this.userinfo.submitNum) *
+          100
+        ).toFixed(1)
+      )
     },
     avatar () {
-      return process.env.VUE_APP_URL + this.userinfo.avatar
+      // return process.env.VUE_APP_URL + this.userinfo.avatar
+      return this.userinfo.avatar
     }
   }
   // created () {
