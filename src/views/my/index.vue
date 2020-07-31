@@ -129,11 +129,12 @@ export default {
     ...mapState(['userinfo', 'isLogin']),
     rate () {
       return (
+        this.userinfo.submitNum &&
         (
           ((this.userinfo.submitNum - this.userinfo.errorNum) /
             this.userinfo.submitNum) *
           100
-        ).toFixed(1) || this.userinfo.submitNum
+        ).toFixed(1)
       )
     },
     avatar () {
