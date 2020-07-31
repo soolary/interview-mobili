@@ -125,6 +125,7 @@ export default {
         // 保存token和用户信息（vuex)
         setToken(res.data.jwt)
         // this.$store.commit('setUserinfo', res.data.user)
+        res.data.user.avatar = process.env.VUE_APP_URL + res.data.user.avatar
         this.SETUSERINFO(res.data.user)
         this.SETISLOGIN(true)
         if (this.$route.query.redirect) {

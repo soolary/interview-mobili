@@ -31,7 +31,9 @@ export default {
     onClickLeft () {
       this.$emit('onClickLeft')
     },
-    onClickRight () {}
+    onClickRight () {
+      this.$emit('onClickRight')
+    }
   }
 }
 </script>

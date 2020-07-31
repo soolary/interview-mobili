@@ -9,6 +9,7 @@ import Question from '../views/question'
 import Find from '../views/find'
 import My from '../views/my/index'
 import Info from '../views/my/Info.vue'
+import EditInfo from '../views/my/EditInfo.vue'
 import Login from '../views/login'
 import { Toast } from 'vant'
 Vue.use(VueRouter)
@@ -31,7 +32,7 @@ const routes = [
   {
     path: '/find',
     component: Find,
-    meta: { showTabbar: true, needLogin: true }
+    meta: { showTabbar: true }
   },
   {
     path: '/my',
@@ -41,7 +42,12 @@ const routes = [
   {
     path: '/info',
     component: Info,
-    meta: { showTabbar: true, needLogin: true }
+    meta: { needLogin: true }
+  },
+  {
+    path: '/editInfo',
+    component: EditInfo,
+    meta: { needLogin: true }
   },
   {
     path: '/login',

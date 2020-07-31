@@ -6,4 +6,20 @@ function getUserInfo () {
     needToken: true
   })
 }
-export { getUserInfo }
+function editUserInfo (data) {
+  return request({
+    url: '/au/edit',
+    method: 'post',
+    needToken: true,
+    data
+  })
+}
+function uploadFiles (data) {
+  return request({
+    url: '/upload',
+    method: 'post',
+    needToken: true,
+    data
+  })
+}
+export { getUserInfo, editUserInfo, uploadFiles }
