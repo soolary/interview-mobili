@@ -14,4 +14,12 @@ function editUserInfo (data) {
     data
   })
 }
-export { getUserInfo, editUserInfo }
+function uploadFiles (data) {
+  return request({
+    url: '/upload',
+    method: 'post',
+    needToken: true,
+    data
+  })
+}
+export { getUserInfo, editUserInfo, uploadFiles }

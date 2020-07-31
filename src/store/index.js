@@ -29,7 +29,7 @@ export default new Vuex.Store({
       const genderObj = { 0: '未知', 1: '男', 2: '女' }
       return genderObj[state.userinfo.gender]
     },
-    UserCity (state) {
+    userCity (state) {
       return areaData.city_list[state.userinfo.area]
     }
   },
