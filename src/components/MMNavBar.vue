@@ -3,12 +3,12 @@
     :title="title"
     :left-text="leftText"
     :right-text="rightText"
-    left-arrow
+    :showBack="true"
     @click-left="onClickLeft"
     @click-right="onClickRight"
     class="MMNavBar"
   >
-    <template #left>
+    <template #left v-if="showBack">
       <i id="back" class="iconfont iconbtn_nav_back"></i>
     </template>
     <template #title>
@@ -23,7 +23,13 @@
 <script>
 export default {
   name: 'MMNavBar',
-  props: ['title', 'leftText', 'rightText'],
+  // props: ['title', 'leftText', 'rightText', 'showBack'],
+  props: {
+    title: { type: String },
+    leftText: { type: String },
+    rightText: { type: String },
+    showBack: { type: Boolean, default: false }
+  },
   data () {
     return {}
   },

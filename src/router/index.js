@@ -12,6 +12,9 @@ import Info from '../views/my/Info.vue'
 import EditInfo from '../views/my/EditInfo.vue'
 import Login from '../views/login'
 import { Toast } from 'vant'
+import ShareList from '../views/share/ShareList'
+import ShareSearch from '../views/share/ShareSearch'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -52,6 +55,16 @@ const routes = [
   {
     path: '/login',
     component: Login
+    // meta: { showTabbar: true }
+  },
+  {
+    path: '/sharelist',
+    component: ShareList
+    // meta: { showTabbar: true }
+  },
+  {
+    path: '/sharesearch',
+    component: ShareSearch
     // meta: { showTabbar: true }
   }
 ]
