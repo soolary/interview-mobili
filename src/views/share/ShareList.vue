@@ -71,6 +71,7 @@ export default {
 
 <style lang="less">
 .experience-list-container {
+  padding: 31px 0;
   min-height: 100vh;
   background: @white-color;
   .van-hairline--bottom::after {

@@ -9,7 +9,9 @@
     class="MMNavBar"
   >
     <template #left v-if="showBack">
-      <i id="back" class="iconfont iconbtn_nav_back"></i>
+      <!-- <slot name="left"></slot> -->
+      <!-- 直接写死 iconfont中的返回按钮即可 -->
+      <i class="iconfont iconbtn_nav_back"></i>
     </template>
     <template #title>
       <slot name="title"></slot>
@@ -28,7 +30,7 @@ export default {
     title: { type: String },
     leftText: { type: String },
     rightText: { type: String },
-    showBack: { type: Boolean, default: false }
+    showBack: { type: Boolean, default: true }
   },
   data () {
     return {}
@@ -46,7 +48,7 @@ export default {
 
 <style lang="less">
 .MMNavBar {
-  #back {
+  i {
     font-size: 44px;
     color: @black-color;
   }

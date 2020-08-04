@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div class="item van-hairline--bottom">
+    <div
+      class="item van-hairline--bottom"
+      @click="$router.push(`/sharedetail/${item.id}`)"
+    >
       <h3 v-html="item.title"></h3>
       <div class="desc">
         {{ item.content }}

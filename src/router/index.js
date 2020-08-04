@@ -4,16 +4,17 @@ import store from '../store'
 import { getToken, removeToken } from '@/utils/local.js'
 import { getUserInfo } from '@/api/user/user.js'
 // import Home from '../views/Home.vue'
-import Company from '../views/company'
-import Question from '../views/question'
-import Find from '../views/find'
-import My from '../views/my/index'
+import Company from '../views/company/Company'
+import Question from '../views/question/Question'
+import Find from '../views/find/Find.vue'
+import My from '../views/my/My'
 import Info from '../views/my/Info.vue'
 import EditInfo from '../views/my/EditInfo.vue'
-import Login from '../views/login'
+import Login from '../views/login/Login'
 import { Toast } from 'vant'
 import ShareList from '../views/share/ShareList'
 import ShareSearch from '../views/share/ShareSearch'
+import ShareDetail from '../views/share/ShareDetail'
 
 Vue.use(VueRouter)
 
@@ -65,6 +66,11 @@ const routes = [
   {
     path: '/sharesearch',
     component: ShareSearch
+    // meta: { showTabbar: true }
+  },
+  {
+    path: '/sharedetail/:id',
+    component: ShareDetail
     // meta: { showTabbar: true }
   }
 ]

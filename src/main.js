@@ -6,6 +6,7 @@ import store from './store'
 import Vant from 'vant'
 import moment from 'moment'
 import golbalCom from './components'
+import plugin from './plugin/plugin'
 import 'vant/lib/index.css'
 import 'normalize.css'
 // 导入flexible
@@ -17,6 +18,7 @@ import '@/styles/base.less'
 Vue.use(Vant)
 Vue.filter('formatTime', value => moment(value).fromNow())
 Vue.use(golbalCom)
+Vue.use(plugin)
 Vue.filter('formatTime', value => {
   moment.locale('zh-cn')
   return moment(value).fromNow()

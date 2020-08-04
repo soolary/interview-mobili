@@ -2,13 +2,15 @@
   <div class="interview-search-container">
     <!-- 顶部 -->
     <div class="top-box">
-      <MMNavBar title="面试技巧搜索"></MMNavBar>
+      <MMNavBar @onClickLeft="$router.push('/sharelist')" title="面试技巧搜索">
+      </MMNavBar>
       <van-search
         shape="round"
         v-model="value"
         placeholder="请输入搜索关键词"
         show-action
         @search="onSearch"
+        @cancel="onCancel"
       >
         <template #left-icon>
           <i class="iconfont iconicon_search"></i>
@@ -35,7 +37,9 @@
         </ul>
         <!-- 历史记录区域 -->
         <div class="section">
-          <div class="title">历史记录 <span>清空</span></div>
+          <div class="title">
+            历史记录 <span @click="clearHistory">清空</span>
+          </div>
           <div class="tags">
             <span
               class="tag"
@@ -81,6 +85,9 @@ export default {
     })
   },
   methods: {
+    onCancel () {
+      this.shareList = []
+    },
     clickAndSearch (item) {
       this.value = item
       this.onSearch()
@@ -119,6 +126,8 @@ export default {
 
 <style lang="less">
 .interview-search-container {
+  padding: 31px 0;
+
   .top-box {
     padding-bottom: 11px;
     background: @white-color;

@@ -34,6 +34,36 @@ function shareTopSearch () {
     method: 'get'
   })
 }
+function shareDetail (id) {
+  return request({
+    url: `/articles/share/${id}`,
+    method: 'get'
+  })
+}
+function shareComments (params) {
+  const { id, start, limit } = params
+  return request({
+    url: `/articles/comments/${id}`,
+    method: 'get',
+    params: { start, limit }
+  })
+}
+function sendComment (data) {
+  return request({
+    url: '/articles/comments',
+    method: 'post',
+    needToken: true,
+    data
+  })
+}
 
 // 暴露出去
-export { technicList, hotData, shareList, shareTopSearch }
+export {
+  technicList,
+  hotData,
+  shareList,
+  shareTopSearch,
+  shareDetail,
+  shareComments,
+  sendComment
+}
