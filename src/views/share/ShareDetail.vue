@@ -66,7 +66,10 @@
               234
             </div>
             <div class="star">
-              <i class="iconfont iconbtn_dianzan_small_nor"></i>
+              <i
+                class="iconfont iconbtn_dianzan_small_nor"
+                @click="supportArticle"
+              ></i>
               125
             </div>
             <div class="share" @click="showShare = true">
@@ -121,7 +124,12 @@
 </template>
 
 <script>
-import { shareDetail, shareComments, sendComment } from '@/api/find/find.js'
+import {
+  shareDetail,
+  shareComments,
+  sendComment,
+  supportArticle
+} from '@/api/find/find.js'
 export default {
   data () {
     return {
@@ -149,6 +157,11 @@ export default {
     })
   },
   methods: {
+    async supportArticle () {
+      await this.$checkLogin()
+      const res = await supportArticle({ article: this.$route.params.id })
+      console.log(res)
+    },
     subComment () {
       this.$checkLogin()
         .then(res => {

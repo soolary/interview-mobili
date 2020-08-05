@@ -56,6 +56,14 @@ function sendComment (data) {
     data
   })
 }
+function supportArticle (data) {
+  return request({
+    url: '/articles/star',
+    method: 'post',
+    needToken: true,
+    data
+  })
+}
 
 // 暴露出去
 export {
@@ -65,5 +73,6 @@ export {
   shareTopSearch,
   shareDetail,
   shareComments,
-  sendComment
+  sendComment,
+  supportArticle
 }
