@@ -1,7 +1,7 @@
 <template>
   <div class="edit">
     <MMNavBar :title="title" @onClickLeft="back" @onClickRight="save">
-      <template #right>
+      <template v-if="isEdit" #right>
         <div>保存</div>
       </template>
     </MMNavBar>
@@ -44,6 +44,9 @@ export default {
       this.$router.push('/info')
     },
     save () {
+      if (!this.isEdit) {
+        return
+      }
       const propValue = this.value
       const prop = this.$route.query.prop
       if (prop === 'avatar' && this.avatar === '') {
@@ -81,7 +84,10 @@ export default {
     }
   },
   computed: {
-    ...mapState(['userinfo'])
+    ...mapState(['userinfo']),
+    isEdit () {
+      return this.value !== this.userinfo[this.$route.query.prop]
+    }
   },
   created () {
     const prop = this.$route.query.prop

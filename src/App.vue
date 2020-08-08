@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <keep-alive include="find">
+      <router-view></router-view>
+    </keep-alive>
     <van-tabbar
       v-if="$route.meta.showTabbar"
       route
@@ -36,7 +38,7 @@
 </template>
 <script>
 export default {
-  //
+  // 22
 }
 </script>
 
