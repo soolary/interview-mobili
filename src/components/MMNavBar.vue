@@ -3,13 +3,15 @@
     :title="title"
     :left-text="leftText"
     :right-text="rightText"
-    left-arrow
+    :showBack="true"
     @click-left="onClickLeft"
     @click-right="onClickRight"
     class="MMNavBar"
   >
-    <template #left>
-      <i id="back" class="iconfont iconbtn_nav_back"></i>
+    <template #left v-if="showBack">
+      <!-- <slot name="left"></slot> -->
+      <!-- 直接写死 iconfont中的返回按钮即可 -->
+      <i class="iconfont iconbtn_nav_back"></i>
     </template>
     <template #title>
       <slot name="title"></slot>
@@ -23,7 +25,13 @@
 <script>
 export default {
   name: 'MMNavBar',
-  props: ['title', 'leftText', 'rightText'],
+  // props: ['title', 'leftText', 'rightText', 'showBack'],
+  props: {
+    title: { type: String },
+    leftText: { type: String },
+    rightText: { type: String },
+    showBack: { type: Boolean, default: true }
+  },
   data () {
     return {}
   },
@@ -40,7 +48,7 @@ export default {
 
 <style lang="less">
 .MMNavBar {
-  #back {
+  i {
     font-size: 44px;
     color: @black-color;
   }
