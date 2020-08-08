@@ -5,7 +5,7 @@ import router from '../router'
 import { getUserInfo } from '../api/user/user'
 export default function (Vue) {
   Vue.prototype.$checkLogin = function () {
-    console.log('蹦沙卡拉卡')
+    // console.log('蹦沙卡拉卡')
     return new Promise((resolve, reject) => {
       if (store.state.isLogin) {
         resolve()

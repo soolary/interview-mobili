@@ -1,7 +1,7 @@
 <template>
   <div class="experience-detail-container">
     <!-- 导航栏 -->
-    <MMNavBar></MMNavBar>
+    <MMNavBar @onClickLeft="$router.go(-1)"></MMNavBar>
     <van-skeleton title avatar :row="20" v-if="shareDetail === ''" />
     <template v-else>
       <!-- 顶部 -->
@@ -41,7 +41,11 @@
             </div>
             <div class="zan-box">
               <span>{{ item.star }}</span>
-              <i class="iconfont iconbtn_dianzan_small_nor"></i>
+              <i
+                class="iconfont iconbtn_dianzan_small_nor"
+                :class="{ active: star }"
+                @click="supportComment"
+              ></i>
             </div>
           </div>
           <!-- 评论内容 -->
@@ -63,18 +67,18 @@
             <div class="input" @click="showPop()">我来补充两句</div>
             <div class="shoucang">
               <i class="iconfont iconbtn_shoucang_nor"></i>
-              234
+              {{ shareDetail.collect }}
             </div>
-            <div class="star">
+            <div class="star" :class="{ active: star }">
               <i
                 class="iconfont iconbtn_dianzan_small_nor"
                 @click="supportArticle"
               ></i>
-              125
+              {{ shareDetail.star }}
             </div>
             <div class="share" @click="showShare = true">
               <i class="iconfont iconbtn_share"></i>
-              998
+              {{ shareDetail.share }}
             </div>
           </div>
           <!-- 底部回复弹出层 -->
@@ -96,26 +100,27 @@
           </van-popup>
           <!-- 分享弹出层 -->
           <van-popup v-model="showShare">
-            <div class="share-box">
+            <div class="share-box" v-if="!popImgUrl" ref="shareBox">
               <div class="text">
                 长按图片下载并分享
               </div>
               <div class="share-content-box">
                 <div class="title">
-                  拿到百度音乐的offer后，我总结了面试产品实习的几点经验
+                  {{ shareDetail.title }}
                 </div>
                 <div class="user-box">
-                  <img src="@/assets/logo.png" alt="" />
-                  <span>热爱生活</span>
+                  <img :src="shareDetail && shareDetail.author.avatar" alt="" />
+                  <span>{{ shareDetail && shareDetail.author.nickname }}</span>
                 </div>
                 <div class="content">
-                  先说一下我的基本情况，本人是北京大学前沿交叉学院数据科学专业研一学生，本科在兰州大学信息安全专业。之所以选择走产品而不是技术，代码能力马马虎虎，而且对编程不感兴趣，最关键的是我性格比较外向，比起每天闷头敲代码，更喜欢和人打交道。于是乎，我开始从各种渠道了解产品经理的前世今生，从《人人都是产品经理》这本书和人人都是产品经理社区，再到知乎，了解到了很多笼统的概念，但是感觉如果没有亲身经历，理论和框架就显得很空洞，而且产品不像技术，门槛相对略低，所以更需要实习的经历，再加上本科的时候从未有过实习经历，所以我很迫切的想找一份产品实习。在面试了滴滴出行、回家吃饭和百度音乐之后，拿到了后面两家的Offer，最终选择了百度音乐。
+                  {{ shareDetail.contentText }}
                 </div>
-                <img class="logo" src="@/assets/avatar.png" alt="" />
-                <img class="code" src="@/assets/avatar.png" alt="" />
+                <img class="logo" src="@/assets/img_share_logo@2x.png" alt="" />
+                <img class="code" :src="codeUrl" alt="" />
                 <div class="direction">长按识别二维码查看原文</div>
               </div>
             </div>
+            <img v-else :src="popImgUrl" alt="" class="share-img" />
           </van-popup>
         </div>
       </van-list>
@@ -130,6 +135,10 @@ import {
   sendComment,
   supportArticle
 } from '@/api/find/find.js'
+import { mapState, mapMutations } from 'vuex'
+import QRCode from 'qrcode'
+import html2canvas from 'html2canvas'
+
 export default {
   data () {
     return {
@@ -137,16 +146,20 @@ export default {
       showShare: false,
       value: '',
       shareDetail: '',
+      star: '',
       loading: false,
       finished: false,
       placeholder: '',
       start: 0,
       limit: 4,
       commentList: [],
-      parentComment: ''
+      parentComment: '',
+      codeUrl: '',
+      popImgUrl: ''
     }
   },
-  created () {
+  async created () {
+    await this.$checkLogin()
     shareDetail(this.$route.params.id).then(res => {
       //   console.log(res)
       if (res.data.author.avatar) {
@@ -155,45 +168,81 @@ export default {
       }
       this.shareDetail = res.data
     })
+    this.star = this.cheakStar()
+  },
+  async mounted () {
+    this.codeUrl = await QRCode.toDataURL(window.location.href)
+  },
+  computed: {
+    ...mapState(['userinfo'])
   },
   methods: {
+    ...mapMutations(['SETPROPVALUE']),
+    async showSharePop () {
+      await this.$checkLogin()
+      this.showShare = true
+      window.scrollTo(0, 0)
+      this.$nextTick(async () => {
+        const canvas = await html2canvas(this.$refs.shareBox, {
+          allowTaint: true,
+          useCORS: true
+        })
+        this.popImgUrl = canvas.toDataURL()
+      })
+    },
+    cheakStar () {
+      const id = +this.$route.params.id
+      const isStar = this.userinfo.starArticles.includes(id)
+      return isStar
+    },
     async supportArticle () {
+      this.$toast.loading({ duration: 0 })
       await this.$checkLogin()
       const res = await supportArticle({ article: this.$route.params.id })
-      console.log(res)
+
+      this.SETPROPVALUE({
+        propName: 'starArticles',
+        propValue: res.data.list
+      })
+      this.cheakStar() ? this.shareDetail.star++ : this.shareDetail.star--
+      this.star = this.cheakStar()
+      this.$toast.clear()
     },
-    subComment () {
-      this.$checkLogin()
-        .then(res => {
-          const data = {
-            content: this.value
+    supportComment () {},
+    async subComment () {
+      if (!this.value) {
+        this.$toast.fail('你评论尼玛呢')
+        return
+      }
+      try {
+        await this.$checkLogin()
+
+        const data = {
+          content: this.value
+        }
+        if (this.parentComment) {
+          data.parent = this.parentComment.id
+        } else {
+          data.article = this.$route.params.id
+        }
+        const res = await sendComment(data)
+        // console.log(res)
+        if (res.data.parent) {
+          this.parentComment.children_comments.push(res.data)
+          this.parentComment = ''
+        } else {
+          if (res.data.author.avatar) {
+            res.data.author.avatar =
+              process.env.VUE_APP_URL + res.data.author.avatar
           }
-          if (this.parentComment) {
-            data.parent = this.parentComment.id
-          } else {
-            data.article = this.$route.params.id
-          }
-          sendComment(data).then(res => {
-            console.log(res)
-            if (res.data.parent) {
-              this.parentComment.children_comments.push(res.data)
-              this.parentComment = ''
-            } else {
-              if (res.data.author.avatar) {
-                res.data.author.avatar =
-                  process.env.VUE_APP_URL + res.data.author.avatar
-              }
-              this.commentList.unshift(res.data)
-            }
-            this.$toast.success('发表成功')
-            this.show = false
-            this.value = ''
-          })
-        })
-        .catch(err => {
-          console.log(err)
-          console.log('没有登录')
-        })
+          this.commentList.unshift(res.data)
+        }
+        this.$toast.success('发表成功')
+        this.show = false
+        this.value = ''
+      } catch (err) {
+        console.log('出错了', err)
+      }
     },
     onLoad () {
       shareComments({
@@ -201,7 +250,7 @@ export default {
         start: this.start,
         limit: this.limit
       }).then(res => {
-        console.log(res)
+        // console.log(res)
         res.data.list.forEach(v => {
           if (v.author.avatar) {
             v.author.avatar = process.env.VUE_APP_URL + v.author.avatar
@@ -233,6 +282,9 @@ export default {
 
 <style lang="less">
 .experience-detail-container {
+  .active {
+    color: @error-color !important;
+  }
   padding: 31px 0 50px;
   background-color: @white-color;
   .van-nav-bar__left {
@@ -354,6 +406,8 @@ export default {
     background-color: @white-color;
     width: 100%;
     justify-content: space-between;
+    text-align: center;
+
     .input {
       height: 34px;
       background: @border-color;
@@ -409,7 +463,7 @@ export default {
     background-position-x: 0;
     background-position-y: 0;
     padding: 0 15px 15px;
-    // background-image: url('../../../assets/avatar.png');
+    background-image: url('../../assets/img_share_bj@2x.png');
     display: flex;
     flex-direction: column;
     .text {
@@ -475,6 +529,11 @@ export default {
         color: @minor-font-color;
       }
     }
+  }
+  .share-img {
+    width: 311px;
+    height: 553px;
+    display: block;
   }
 }
 </style>

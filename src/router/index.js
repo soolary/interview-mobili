@@ -104,4 +104,7 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
+router.afterEach((to, from) => {
+  window.scrollTo(0, 0)
+})
 export default router
